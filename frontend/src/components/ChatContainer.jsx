@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
 import assets from "../assets/assets";
-import { formatMessageTime } from "../lib/utils";
+import { formatMessageTime } from "@/lib/utils";
 import { ChatContext } from "../context/ChatContext";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
+import {
+  EllipsisVertical,
+  Phone,
+  Video,
+  Mic, Image, Smile, SendHorizontal, MapPin
+} from "lucide-react";
 
 const ChatContainer = () => {
-  const {
-    messages,
-    selectedUser,
-    setSelectedUser,
-    sendMessage,
-    getMessages,
-  } = useContext(ChatContext);
+  const { messages, selectedUser, setSelectedUser, sendMessage, getMessages } =
+    useContext(ChatContext);
 
   const { authUser, onlineUsers } = useContext(AuthContext);
   const [input, setInput] = useState("");
@@ -63,43 +64,38 @@ const ChatContainer = () => {
 
   if (!selectedUser) {
     return (
-      <div className="flex flex-col items-center justify-center gap-2 text-gray-500 bg-white/10 max-md:hidden">
-        <img src={assets.logo_icon} alt="Chat logo" className="max-w-16" />
-        <p className="text-lg font-medium text-white">Chat anytime, anywhere</p>
+      <div className="flex flex-col items-center justify-center gap-2 text-gray-500 bg-[#fdfdfd] border-3 border-[#EAEFEF] max-md:hidden rounded-2xl">
+        <img src={assets.logo_icon} alt="Chat logo" className="max-w-20" />
+        <p className="text-3xl font-semibold text-[#00A9FF]">
+          Chat anytime, anywhere
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="h-full overflow-hidden relative backdrop-blur-lg">
+    <div className="rounded-2xl h-full overflow-hidden relative bg-[#fdfdfd] border-3 border-[#EAEFEF]">
       {/* Top Bar */}
-      <div className="flex items-center gap-3 py-3 mx-4 border-b border-stone-500">
+      <div className="flex items-center gap-3 py-3 mx-4 border-b border-[#EAEFEF] ">
         <img
+        onClick={() => setSelectedUser(null)}
           src={selectedUser.profilePic || assets.avatar_icon}
           alt="User profile"
           className="w-8 rounded-full"
         />
-        <p className="flex-1 text-lg text-white flex items-center gap-2">
+        <p className="flex-1 text-lg text-black flex items-center gap-2">
           {selectedUser.fullName}
           {onlineUsers.includes(selectedUser._id) && (
-            <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
+            <span className="w-2 h-2 rounded-full bg-[#00A9FF] inline-block" />
           )}
         </p>
-        <img
-          onClick={() => setSelectedUser(null)}
-          src={assets.arrow_icon}
-          alt="Back"
-          className="md:hidden max-w-7 cursor-pointer"
-        />
-        <img
-          src={assets.help_icon}
-          alt="Help"
-          className="max-md:hidden max-w-5"
-        />
+        <Video className="text-gray-400 hover:text-gray-600 w-5 h-5 cursor-pointer" />
+        <Phone className="text-gray-400 hover:text-gray-600 w-5 h-5 cursor-pointer" />
+        <EllipsisVertical className="text-gray-400 hover:text-gray-600 w-5 h-5 cursor-pointer" />
       </div>
 
       {/* Messages */}
-      <div className="flex flex-col h-[calc(100%-120px)] overflow-y-auto p-3 pb-6">
+      <div className="flex flex-col h-[calc(100%-120px)] bg-gray-100 overflow-y-auto p-3 pb-6">
         {messages.map((msg, idx) => {
           const isOwn = msg.senderId === authUser._id;
           const key = `${msg._id || "temp"}-${msg.createdAt || idx}-${idx}`;
@@ -121,25 +117,38 @@ const ChatContainer = () => {
 
               <div className="flex flex-col max-w-[60%]">
                 {msg.image ? (
-                  <img
-                    src={msg.image}
-                    alt="Sent image"
-                    className="rounded-lg border border-gray-600"
-                  />
+                  <div className="relative">
+                    <img
+                      src={msg.image}
+                      alt="Sent image"
+                      className="rounded-lg  max-w-full"
+                    />
+                    <span className="absolute bottom-1 right-2 text-xs text-white bg-black/60 px-1 rounded">
+                      {formatMessageTime(msg.createdAt)}
+                    </span>
+                  </div>
                 ) : (
-                  <p
-                    className={`p-2 text-white text-sm rounded-lg break-words ${
+                  <div
+                    className={`p-2 text-sm rounded-md break-words w-fit max-w-xs ${
                       isOwn
-                        ? "bg-blue-600 rounded-br-none"
-                        : "bg-violet-500/40 rounded-bl-none"
+                        ? "bg-[#00A9FF] text-white rounded-br-none"
+                        : "bg-[#EAEFEF] text-black rounded-bl-none"
                     }`}
                   >
-                    {msg.text}
-                  </p>
+                    <div className="flex items-end justify-between gap-1">
+                      <p className="whitespace-pre-wrap break-words">
+                        {msg.text}
+                      </p>
+                      <span
+                        className={`text-[10px] pl-1 pt-1 self-end ${
+                          isOwn ? "text-white" : "text-black"
+                        }`}
+                      >
+                        {formatMessageTime(msg.createdAt)}
+                      </span>
+                    </div>
+                  </div>
                 )}
-                <span className="text-xs text-gray-400 mt-1 self-end">
-                  {formatMessageTime(msg.createdAt)}
-                </span>
               </div>
 
               {isOwn && (
@@ -155,42 +164,53 @@ const ChatContainer = () => {
         <div ref={scrollEnd}></div>
       </div>
 
-      {/* Input Field */}
-      <form
-        onSubmit={handleSendMessage}
-        className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-3 bg-black/10"
-      >
-        <div className="flex-1 flex items-center bg-gray-100/10 px-3 rounded-full">
-          <input
-            type="text"
-            placeholder="Send a message"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1 text-sm p-3 text-white placeholder-gray-400 bg-transparent outline-none"
-          />
-          <input
-            onChange={handleSendImage}
-            type="file"
-            id="image"
-            accept="image/*"
-            hidden
-          />
-          <label htmlFor="image">
-            <img
-              src={assets.gallery_icon}
-              alt="Upload"
-              className="w-5 mr-2 cursor-pointer"
-            />
-          </label>
-        </div>
-        <button type="submit">
-          <img
-            src={assets.send_button}
-            alt="Send"
-            className="w-7 cursor-pointer"
-          />
-        </button>
-      </form>
+     {/* Input Field */}
+<form
+  onSubmit={handleSendMessage}
+  className="absolute bottom-0 left-0 right-0 md:px-4 px-2 py-2 bg-white"
+>
+  <div className="flex items-center gap-3 bg-gray-100 px-4 py-3 rounded-2xl w-full max-w-3xl mx-auto">
+    {/* Mic Icon */}
+    <button type="button" className="text-gray-400 hover:text-gray-600">
+      <Mic size={20} />
+    </button>
+
+    {/* Message Input */}
+    <input
+      type="text"
+      placeholder="Type a message"
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+      className="flex-1 text-sm bg-transparent outline-none placeholder-gray-500 text-black px-2"
+    />
+
+    {/* Hidden File Input */}
+    <input
+      onChange={handleSendImage}
+      type="file"
+      id="image"
+      accept="image/*"
+      hidden
+    />
+
+    {/* Icons */}
+    <div className="flex items-center gap-2">
+      <label htmlFor="image" className="cursor-pointer text-gray-400 hover:text-gray-600">
+        <Image size={20} />
+      </label>
+      <button type="button" className="text-gray-400 hover:text-gray-600">
+        <Smile size={20} />
+      </button>
+      <button type="submit" className="text-gray-400 hover:text-gray-600">
+        <SendHorizontal size={20} />
+      </button>
+      <button type="button" className="text-gray-400 hover:text-gray-600">
+        <MapPin size={20} />
+      </button>
+    </div>
+  </div>
+</form> this code responsive code laptop screen mobile screen tablet screen
+
     </div>
   );
 };

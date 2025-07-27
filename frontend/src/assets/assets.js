@@ -1,7 +1,7 @@
 import avatar_icon from './avatar_icon.png'
 import gallery_icon from './gallery_icon.svg'
 import help_icon from './help_icon.png'
-import logo_icon from './logo_icon.svg'
+import logo_icon from './chat.png'
 import logo_big from './logo_big.svg'
 import logo from './logo.png'
 import profile_richard from './profile_richard.png'
@@ -21,6 +21,7 @@ import pic3 from './pic3.png'
 import pic4 from './pic4.png'
 import img1 from './img1.jpg'
 import img2 from './img2.jpg'
+
 
 const assets = {
     avatar_icon,
