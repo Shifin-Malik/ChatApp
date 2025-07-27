@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import assets from "../assets/assets";
+
 import {
   Mail,
   Lock,
@@ -15,6 +16,7 @@ import {
   TabsTrigger,
   TabsContent,
 } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 
 const Login = () => {
   const [tab, setTab] = useState("login");
@@ -26,7 +28,7 @@ const Login = () => {
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
 
   const { login } = useContext(AuthContext);
-
+ 
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -44,30 +46,30 @@ const Login = () => {
   };
 
   const inputClasses =
-    "pl-10 w-full p-3 rounded-md border border-gray-400 bg-white/10 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00A9FF]";
-  const iconClasses = "absolute left-3 top-1/2 -translate-y-1/2 text-gray-400";
+    "pl-10 w-full p-3 text-sm rounded-(--border-radius-xl)  border-2 border-(--border-color) bg-primary text-black placeholder-(--text-color-input)  focus:outline-none focus:ring-2 focus:ring-(--color-green)";
+  const iconClasses = "absolute left-3 top-1/2  -translate-y-1/2 text-(--icon-color) hover:text-[var(--icon-color-hover)]";
 
   return (
-    <div className="min-h-screen bg-gray-100 px-6 py-12 flex items-center justify-center">
+    <div className="min-h-screen bg-primary px-6 py-12 flex items-center justify-center">
       <div className="max-w-6xl w-full flex flex-col md:flex-row items-center justify-around gap-8">
         {/* Left Branding */}
         <div className="text-center md:text-left">
           <img src={assets.logo_icon} alt="Logo" className="md:w-48 w-32 mx-auto md:mx-0" />
-          <h1 className="text-4xl sm:text-5xl font-bold text-[#00A9FF] mt-4">Textrox</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-secondary mt-4">Textrox</h1>
         </div>
 
         {/* Right Form Section */}
-        <div className="w-full max-w-md bg-white/20 border border-white/30 text-black backdrop-blur-md rounded-2xl shadow-2xl p-6 sm:p-8">
-          <Tabs defaultValue="login" value={tab} onValueChange={setTab} >
-            <TabsList className="w-full justify-between bg-gray-100 h-10 rounded-2xl shadow-sm">
+        <div className="w-full max-w-md bg-secondary border-2 border-(--border-color) text-black backdrop-blur-md rounded-2xl shadow-2xl p-6 sm:p-8">
+          <Tabs className=" " defaultValue="login" value={tab} onValueChange={setTab} >
+            <TabsList className="w-full justify-between bg-primary h-12 p-1 rounded-(--border-radius-xl) border-2 border-(--border-color)  shadow-lg">
               <TabsTrigger
-                className="w-full rounded-2xl data-[state=active]:bg-white data-[state=active]:text-[#00A9FF] data-[state=active]:shadow text-xs"
+                className="w-full  data-[state=active]:bg-(--button-bg) data-[state=active]:text-primary data-[state=active]:shadow font-semibold text-xs md:text-sm"
                 value="login"
               >
                 Login
               </TabsTrigger>
               <TabsTrigger
-                className="w-full rounded-2xl data-[state=active]:bg-white data-[state=active]:text-[#00A9FF] data-[state=active]:shadow text-xs"
+                className="w-full  data-[state=active]:bg-(--button-bg) data-[state=active]:text-primary data-[state=active]:shadow font-semibold text-xs md:text-sm"
                 value="signup"
               >
                 Sign Up
@@ -100,19 +102,19 @@ const Login = () => {
                     className={`${inputClasses} pr-10`}
                   />
                   <div
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    {showPassword ? <EyeOff className="text-(--icon-color) hover:text-[var(--icon-color-hover)]" size={20} /> : <Eye className="text-(--icon-color) hover:text-[var(--icon-color-hover)]" size={20} />}
                   </div>
                 </div>
 
-                <button
+                <Button
                   type="submit"
-                  className="w-full py-3 mt-2 text-white bg-[#00A9FF] rounded-full hover:bg-[#0090d0] transition"
+                  className="w-full py-3 mt-2 text-primary bg-(--button-bg)  rounded-(--border-radius-xl) hover:bg-(--button-hover-bg) transition"
                 >
                   Login Now
-                </button>
+                </Button>
               </form>
             </TabsContent>
 
@@ -178,7 +180,7 @@ const Login = () => {
 
                 <button
                   type="submit"
-                  className="w-full py-3 mt-2 text-white bg-[#00A9FF] rounded-full hover:bg-[#0090d0] transition"
+                  className="w-full py-3 mt-2 text-white bg-(--button-bg) hover:bg-(--button-hover-bg) rounded-(--border-radius-xl)  transition"
                 >
                   {isDataSubmitted ? "Create Account" : "Continue"}
                 </button>

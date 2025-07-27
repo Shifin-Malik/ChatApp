@@ -8,7 +8,11 @@ import {
   EllipsisVertical,
   Phone,
   Video,
-  Mic, Image, Smile, SendHorizontal, MapPin
+  Mic,
+  Image,
+  Smile,
+  SendHorizontal,
+  MapPin,
 } from "lucide-react";
 
 const ChatContainer = () => {
@@ -64,9 +68,9 @@ const ChatContainer = () => {
 
   if (!selectedUser) {
     return (
-      <div className="flex flex-col items-center justify-center gap-2 text-gray-500 bg-[#fdfdfd] border-3 border-[#EAEFEF] max-md:hidden rounded-2xl">
-        <img src={assets.logo_icon} alt="Chat logo" className="max-w-20" />
-        <p className="text-3xl font-semibold text-[#00A9FF]">
+      <div className="flex flex-col items-center justify-center gap-2 bg-secondary  rounded-(--border-radius-xl) border-2 border-(--border-color)  max-md:hidden">
+        <img src={assets.logo_icon} alt="Chat logo" className="max-w-32" />
+        <p className="text-4xl font-semibold text-green">
           Chat anytime, anywhere
         </p>
       </div>
@@ -74,11 +78,11 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="rounded-2xl h-full overflow-hidden relative bg-[#fdfdfd] border-3 border-[#EAEFEF]">
+    <div className=" h-full overflow-hidden relative bg-secondary rounded-(--border-radius-xl) border-2 border-(--border-color) ">
       {/* Top Bar */}
-      <div className="flex items-center gap-3 py-3 mx-4 border-b border-[#EAEFEF] ">
+      <div className="flex items-center gap-3 py-3 mx-4 border-b  border-(--border-color) ">
         <img
-        onClick={() => setSelectedUser(null)}
+          onClick={() => setSelectedUser(null)}
           src={selectedUser.profilePic || assets.avatar_icon}
           alt="User profile"
           className="w-8 rounded-full"
@@ -86,16 +90,15 @@ const ChatContainer = () => {
         <p className="flex-1 text-lg text-black flex items-center gap-2">
           {selectedUser.fullName}
           {onlineUsers.includes(selectedUser._id) && (
-            <span className="w-2 h-2 rounded-full bg-[#00A9FF] inline-block" />
+            <span className="w-2 h-2 rounded-full bg-green inline-block" />
           )}
         </p>
-        <Video className="text-gray-400 hover:text-gray-600 w-5 h-5 cursor-pointer" />
-        <Phone className="text-gray-400 hover:text-gray-600 w-5 h-5 cursor-pointer" />
-        <EllipsisVertical className="text-gray-400 hover:text-gray-600 w-5 h-5 cursor-pointer" />
+        <Video className="text-(--icon-color) hover:text-gray-600 w-5 h-5 cursor-pointer" />
+        <Phone className="text-(--icon-color) hover:text-gray-600 w-5 h-5 cursor-pointer" />
+        <EllipsisVertical className="text-(--icon-color) hover:text-gray-600 w-5 h-5 cursor-pointer" />
       </div>
-
       {/* Messages */}
-      <div className="flex flex-col h-[calc(100%-120px)] bg-gray-100 overflow-y-auto p-3 pb-6">
+      <div className="flex flex-col h-[calc(100%-120px)] bg-primary overflow-y-auto p-3 pb-6">
         {messages.map((msg, idx) => {
           const isOwn = msg.senderId === authUser._id;
           const key = `${msg._id || "temp"}-${msg.createdAt || idx}-${idx}`;
@@ -129,10 +132,10 @@ const ChatContainer = () => {
                   </div>
                 ) : (
                   <div
-                    className={`p-2 text-sm rounded-md break-words w-fit max-w-xs ${
+                    className={`p-2 text-sm rounded-md break-words w-fit max-w-xs border-2 ${
                       isOwn
-                        ? "bg-[#00A9FF] text-white rounded-br-none"
-                        : "bg-[#EAEFEF] text-black rounded-bl-none"
+                        ? "bg-green text-primary rounded-br-none border-[var(--border-color)]"
+                        : "bg-secondary text-black rounded-bl-none border-[var(--border-color)]"
                     }`}
                   >
                     <div className="flex items-end justify-between gap-1">
@@ -140,8 +143,8 @@ const ChatContainer = () => {
                         {msg.text}
                       </p>
                       <span
-                        className={`text-[10px] pl-1 pt-1 self-end ${
-                          isOwn ? "text-white" : "text-black"
+                        className={`text-[8px] pl-1 pt-1 self-end ${
+                          isOwn ? "text-white" : "text-black pr-1"
                         }`}
                       >
                         {formatMessageTime(msg.createdAt)}
@@ -163,54 +166,68 @@ const ChatContainer = () => {
         })}
         <div ref={scrollEnd}></div>
       </div>
+      {/* Input Field */}
+      <form
+        onSubmit={handleSendMessage}
+        className="absolute bottom-0 left-0 right-0 md:px-4 px-2 py-2 bg-white"
+      >
+        <div className="flex items-center gap-3 bg-primary px-4 py-3 rounded-(--border-radius-xl) border-2 border-(--border-color) w-full max-w-3xl mx-auto">
+          {/* Mic Icon */}
+          <button
+            type="button"
+            className="text-(--icon-color) hover:text-[var(--icon-color-hover)]"
+          >
+            <Mic size={20} className="cursor-pointer" />
+          </button>
 
-     {/* Input Field */}
-<form
-  onSubmit={handleSendMessage}
-  className="absolute bottom-0 left-0 right-0 md:px-4 px-2 py-2 bg-white"
->
-  <div className="flex items-center gap-3 bg-gray-100 px-4 py-3 rounded-2xl w-full max-w-3xl mx-auto">
-    {/* Mic Icon */}
-    <button type="button" className="text-gray-400 hover:text-gray-600">
-      <Mic size={20} />
-    </button>
+          {/* Message Input */}
+          <input
+            type="text"
+            placeholder="Type a message"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-1 text-sm bg-transparent outline-none placeholder-(--text-color-input) px-2"
+          />
 
-    {/* Message Input */}
-    <input
-      type="text"
-      placeholder="Type a message"
-      value={input}
-      onChange={(e) => setInput(e.target.value)}
-      className="flex-1 text-sm bg-transparent outline-none placeholder-gray-500 text-black px-2"
-    />
+          {/* Hidden File Input */}
+          <input
+            onChange={handleSendImage}
+            type="file"
+            id="image"
+            accept="image/*"
+            hidden
+          />
 
-    {/* Hidden File Input */}
-    <input
-      onChange={handleSendImage}
-      type="file"
-      id="image"
-      accept="image/*"
-      hidden
-    />
-
-    {/* Icons */}
-    <div className="flex items-center gap-2">
-      <label htmlFor="image" className="cursor-pointer text-gray-400 hover:text-gray-600">
-        <Image size={20} />
-      </label>
-      <button type="button" className="text-gray-400 hover:text-gray-600">
-        <Smile size={20} />
-      </button>
-      <button type="submit" className="text-gray-400 hover:text-gray-600">
-        <SendHorizontal size={20} />
-      </button>
-      <button type="button" className="text-gray-400 hover:text-gray-600">
-        <MapPin size={20} />
-      </button>
-    </div>
-  </div>
-</form> this code responsive code laptop screen mobile screen tablet screen
-
+          {/* Icons */}
+          <div className="flex items-center gap-2">
+            <label
+              htmlFor="image"
+              className="cursor-pointer text-(--icon-color) hover:text-[var(--icon-color-hover)]"
+            >
+              <Image size={20} />
+            </label>
+            <button
+              type="button"
+              className="cursor-pointer text-(--icon-color) hover:text-[var(--icon-color-hover)]"
+            >
+              <Smile size={20} />
+            </button>
+            <button
+              type="submit"
+              className="cursor-pointer text-(--icon-color) hover:tcursor-pointer ext-[var(--icon-color-hover)]"
+            >
+              <SendHorizontal size={20} />
+            </button>
+            <button
+              type="button"
+              className="cursor-pointer text-(--icon-color) hover:text-[var(--icon-color-hover)]"
+            >
+              <MapPin size={20} />
+            </button>
+          </div>
+        </div>
+      </form>{" "}
+      this code responsive code laptop screen mobile screen tablet screen
     </div>
   );
 };

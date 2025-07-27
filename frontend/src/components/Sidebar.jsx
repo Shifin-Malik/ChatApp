@@ -37,29 +37,29 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-[#fdfdfd] h-full  p-5 rounded-2xl border-3 border-[#EAEFEF] overflow-y-scroll text-black ${
+      className={`bg-secondary h-full  p-5 rounded-(--border-radius-xl) border-2 border-(--border-color) overflow-y-scroll text-black ${
         selectedUser ? "max-md:hidden" : ""
       }`}
     >
       <div className="pb-5">
         <div className="flex justify-between items-center px-4 py-2">
       <img src={assets.logo_icon} alt="logo" className="w-8 h-8" />
-      <h1 className="text-2xl font-bold text-[#00A9FF]">Textrox</h1>
+      <h1 className="text-2xl font-bold text-secondary">Textrox</h1>
 
       <div className="relative group cursor-pointer">
-        <EllipsisVertical className="text-black w-5 h-5" />
+        <EllipsisVertical className="text-(--icon-color) w-5 h-5" />
 
-        <div className="absolute top-full right-0 z-20 w-32 mt-2 p-3 rounded-md bg-gray-100 border  text-black opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-all duration-200">
+        <div className="absolute top-full right-0 z-20 w-32 mt-2 p-3 rounded-(--border-radius-xl) border-2 border-(--border-color)  bg-secondary   text-input opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-all duration-200">
           <p
             onClick={() => navigate("/profile")}
-            className="cursor-pointer text-sm hover:text-[#00A9FF]"
+            className="cursor-pointer text-sm hover:text-green"
           >
             Edit Profile
           </p>
-          <hr className="my-2 border-t border-[#00A9FF]" />
+          <hr className="my-2 border-t border-green" />
           <p
             onClick={logout}
-            className="cursor-pointer text-sm hover:text-[#00A9FF]"
+            className="cursor-pointer text-sm hover:text-green"
           >
             Logout
           </p>
@@ -67,12 +67,12 @@ const Sidebar = () => {
       </div>
     </div>
 
-        <div className="bg-[#F6F6F6] rounded-2xl flex items-center gap-2 py-3 px-4 mt-5">
-         <Search size={15}/>
+        <div className="bg-primary rounded-(--border-radius-xl) border-2 border-(--border-color) flex items-center gap-2 py-3 px-4 mt-5">
+         <Search className="text-(--icon-color)" size={15}/>
           <input
             onChange={(e) => setInput(e.target.value)}
             type="text"
-            className="bg-transparent border-none outline-none text-black text-sm placeholder-black flex-1"
+            className="bg-transparent border-none outline-none text-black text-sm placeholder-(--text-color-input) flex-1"
             placeholder="Search User..."
           />
         </div>
@@ -81,22 +81,22 @@ const Sidebar = () => {
       <div className="flex flex-col">
        <div className="flex justify-center w-full mb-4">
   <Tabs defaultValue="all" className="w-full max-w-xs">
-    <TabsList className="w-full justify-between bg-gray-100 h-10 rounded-2xl shadow-sm">
+    <TabsList className="w-full justify-between bg-primary h-10 rounded-(--border-radius-xl) border-2 border-(--border-color) shadow-sm">
       <TabsTrigger
         value="all"
-        className="w-full rounded-2xl data-[state=active]:bg-white data-[state=active]:text-[#00A9FF] data-[state=active]:shadow text-xs"
+        className="w-full data-[state=active]:text-primary data-[state=active]:shadow text-xs"
       >
         All
       </TabsTrigger>
       <TabsTrigger
         value="personal"
-        className="w-full rounded-2xl data-[state=active]:bg-white data-[state=active]:text-[#00A9FF] data-[state=active]:shadow text-xs"
+        className="w-full data-[state=active]:text-primary data-[state=active]:shadow text-xs"
       >
         Personal
       </TabsTrigger>
       <TabsTrigger
         value="groups"
-        className="w-full rounded-2xl data-[state=active]:bg-white data-[state=active]:text-[#00A9FF] data-[state=active]:shadow text-xs"
+        className="w-full data-[state=active]:text-primary data-[state=active]:shadow text-xs"
       >
         Groups
       </TabsTrigger>
@@ -113,7 +113,7 @@ const Sidebar = () => {
             }}
             key={user._id || index}
             className={`relative flex items-center gap-2 p-2 pl-4 rounded-2xl cursor-pointer max-sm:text-sm 
-            ${selectedUser?._id === user._id ? "bg-gray-100" : ""}`}
+            ${selectedUser?._id === user._id ? "bg-[#F2F2F2] rounded-(--border-radius-xl) border border-(--border-color) " : ""}`}
           >
             <img
               src={user?.profilePic || assets.avatar_icon}
@@ -121,19 +121,19 @@ const Sidebar = () => {
               className="w-[35px] aspect-[1/1] rounded-full"
             />
             <div className="flex flex-col leading-5">
-              <p>
+              <p className="font-medium text-sm text-black">
                 {user._id === authUser?._id
                   ? `${user.fullName} (You)`
                   : user.fullName}
               </p>
               {onlineUsers.includes(user._id) ? (
-                <span className="text-[#00A9FF] text-xs">Online</span>
+                <span className="text-secondary text-xs">Online</span>
               ) : (
-                <span className="text-neutral-400 text-xs">Offline</span>
+                <span className="text-input text-xs">Offline</span>
               )}
             </div>
             {unseenMessages?.[user._id] > 0 && (
-              <p className="absolute top-4 right-4 text-xs h-5 w-5 flex justify-center items-center rounded-full bg-violet-500/50">
+              <p className="absolute top-4 right-4 text-xs h-5 w-5 flex justify-center items-center rounded-full bg-green text-input">
                 {unseenMessages[user._id]}
               </p>
             )}

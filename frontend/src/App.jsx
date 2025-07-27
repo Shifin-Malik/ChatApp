@@ -11,7 +11,7 @@ const App = () => {
   const { authUser } = useContext(AuthContext)
 
   return (
-    <div className="bg-[#f7f8fa]">
+    <div className="bg-[#F7F7F7]">
       <Toaster />
     <Routes>
 

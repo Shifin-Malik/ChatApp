@@ -33,19 +33,19 @@ const RightSidebar = () => {
     <TabsList className="w-full justify-between bg-gray-100 h-10 rounded-2xl shadow-sm">
       <TabsTrigger
         value="media"
-        className="w-full rounded-2xl data-[state=active]:bg-white data-[state=active]:text-[#00A9FF] data-[state=active]:shadow text-xs"
+        className="w-full data-[state=active]:text-primary data-[state=active]:shadow text-xs"
       >
         Media
       </TabsTrigger>
       <TabsTrigger
         value="link"
-        className="w-full rounded-2xl data-[state=active]:bg-white data-[state=active]:text-[#00A9FF] data-[state=active]:shadow text-xs"
+        className="w-full data-[state=active]:text-primary data-[state=active]:shadow text-xs"
       >
         Link
       </TabsTrigger>
       <TabsTrigger
         value="docs"
-        className="w-full rounded-2xl data-[state=active]:bg-white data-[state=active]:text-[#00A9FF] data-[state=active]:shadow text-xs"
+        className="w-full data-[state=active]:text-primary data-[state=active]:shadow text-xs"
       >
         Docs
       </TabsTrigger>
@@ -61,8 +61,8 @@ const RightSidebar = () => {
         </div>
       </div>
 
-      <Button onClick={() => logout()} className='absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-[#00A9FF]
-      text-white border-none text-sm font-light py-2 px-20 rounded-full cursor-pointer'>
+      <Button onClick={() => logout()} className='absolute bottom-5 left-1/2 transform -translate-x-1/2 
+       border-none text-primary  text-sm  py-2 px-20  bg-(--button-bg)  rounded-(--border-radius-xl) hover:bg-(--button-hover-bg) cursor-pointer'>
         Logout
       </Button>
     </div>
