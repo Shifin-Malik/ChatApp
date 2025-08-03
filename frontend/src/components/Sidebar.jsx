@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EllipsisVertical,Search } from 'lucide-react';
+import { PanelsLeftBottom, Search } from "lucide-react";
+import { ModeToggle } from "./mode-toggle";
+
 
 const Sidebar = () => {
   const {
@@ -16,9 +18,9 @@ const Sidebar = () => {
     setUnseenMessages,
   } = useContext(ChatContext);
   const { logout, onlineUsers, authUser } = useContext(AuthContext);
-
   const [input, setInput] = useState("");
   const navigate = useNavigate();
+  const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
     getUsers();
@@ -37,38 +39,43 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-secondary h-full  p-5 rounded-(--border-radius-xl) border-2 border-(--border-color) overflow-y-scroll text-black ${
+      className={`bg-secondary dark:bg-(--foreground) h-full  p-5 rounded-(--border-radius-xl) border-2 border-(--border-color) overflow-y-scroll text-black ${
         selectedUser ? "max-md:hidden" : ""
       }`}
     >
-      <div className="pb-5">
-        <div className="flex justify-between items-center px-4 py-2">
-      <img src={assets.logo_icon} alt="logo" className="w-8 h-8" />
-      <h1 className="text-2xl font-bold text-secondary">Textrox</h1>
+      <div className="pb-2">
+        {authUser && (
+          <div className="flex dark:bg-(--foreground)  justify-between items-center gap-2 px-4 py-2 rounded-(--border-radius-xl) border-2 border-(--border-color)">
+            <img
+              src={authUser.profilePic || assets.avatar_icon}
+              alt="User profile"
+              className="w-12 rounded-full"
+            />
+            <p className="flex-1 text-sm text-(--icon-color) flex items-center gap-2">
+              {authUser.fullName}
+            </p>
 
-      <div className="relative group cursor-pointer">
-        <EllipsisVertical className="text-(--icon-color) w-5 h-5" />
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowSearch((prev) => !prev)}
+                className="p-2 rounded-full bg-primary text-white hover:bg-opacity-80 transition"
+              >
+                <Search className="text-(--icon-color)" size={18} />
+              </button>
+            </div>
+            <div className="relative group cursor-pointer">
+              <PanelsLeftBottom className="text-(--icon-color) w-5 h-5" />
+            </div>
+            <div className="relative group cursor-pointer">
+              <ModeToggle className="text-(--icon-color)" />
+            </div>
 
-        <div className="absolute top-full right-0 z-20 w-32 mt-2 p-3 rounded-(--border-radius-xl) border-2 border-(--border-color)  bg-secondary   text-input opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-all duration-200">
-          <p
-            onClick={() => navigate("/profile")}
-            className="cursor-pointer text-sm hover:text-green"
-          >
-            Edit Profile
-          </p>
-          <hr className="my-2 border-t border-green" />
-          <p
-            onClick={logout}
-            className="cursor-pointer text-sm hover:text-green"
-          >
-            Logout
-          </p>
-        </div>
+          </div>
+        )}
       </div>
-    </div>
-
-        <div className="bg-primary rounded-(--border-radius-xl) border-2 border-(--border-color) flex items-center gap-2 py-3 px-4 mt-5">
-         <Search className="text-(--icon-color)" size={15}/>
+      {showSearch && (
+        <div className="bg-primary dark:bg-(--foreground) rounded-(--border-radius-xl) border-2 border-(--border-color) flex items-center gap-2 py-3 px-4">
+          <Search className="text-(--icon-color)" size={15} />
           <input
             onChange={(e) => setInput(e.target.value)}
             type="text"
@@ -76,34 +83,33 @@ const Sidebar = () => {
             placeholder="Search User..."
           />
         </div>
-      </div>
-
-      <div className="flex flex-col">
-       <div className="flex justify-center w-full mb-4">
-  <Tabs defaultValue="all" className="w-full max-w-xs">
-    <TabsList className="w-full justify-between bg-primary h-10 rounded-(--border-radius-xl) border-2 border-(--border-color) shadow-sm">
-      <TabsTrigger
-        value="all"
-        className="w-full data-[state=active]:text-primary data-[state=active]:shadow text-xs"
-      >
-        All
-      </TabsTrigger>
-      <TabsTrigger
-        value="personal"
-        className="w-full data-[state=active]:text-primary data-[state=active]:shadow text-xs"
-      >
-        Personal
-      </TabsTrigger>
-      <TabsTrigger
-        value="groups"
-        className="w-full data-[state=active]:text-primary data-[state=active]:shadow text-xs"
-      >
-        Groups
-      </TabsTrigger>
-    </TabsList>
-  </Tabs>
-</div>
-
+      )}
+      <div className="flex flex-col mt-2">
+        
+        <div className="flex justify-center w-full mb-4">
+          <Tabs defaultValue="all" className="w-full max-w-xs">
+            <TabsList className="w-full justify-between bg-primary dark:bg-(--foreground)  h-10  shadow-sm dark:shadow-green">
+              <TabsTrigger
+                value="all"
+                className="w-full data-[state=active]:text-primary rounded-2xl  text-xs"
+              >
+                All
+              </TabsTrigger>
+              <TabsTrigger
+                value="personal"
+                className="w-full data-[state=active]:text-primary rounded-2xl  text-xs"
+              >
+                Personal
+              </TabsTrigger>
+              <TabsTrigger
+                value="groups"
+                className="w-full data-[state=active]:text-primary rounded-2xl  text-xs"
+              >
+                Groups
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
 
         {filteredUsers.map((user, index) => (
           <div
@@ -113,7 +119,11 @@ const Sidebar = () => {
             }}
             key={user._id || index}
             className={`relative flex items-center gap-2 p-2 pl-4 rounded-2xl cursor-pointer max-sm:text-sm 
-            ${selectedUser?._id === user._id ? "bg-[#F2F2F2] rounded-(--border-radius-xl) border border-(--border-color) " : ""}`}
+            ${
+              selectedUser?._id === user._id
+                ? "bg-[#F2F2F2] dark:bg-(--foreground) rounded-(--border-radius-xl) border-2 border-(--border-color) dark:border-(--border-color) "
+                : ""
+            }`}
           >
             <img
               src={user?.profilePic || assets.avatar_icon}
@@ -121,7 +131,7 @@ const Sidebar = () => {
               className="w-[35px] aspect-[1/1] rounded-full"
             />
             <div className="flex flex-col leading-5">
-              <p className="font-medium text-sm text-black">
+              <p className="font-medium text-sm text-black dark:text-(--text-color)">
                 {user._id === authUser?._id
                   ? `${user.fullName} (You)`
                   : user.fullName}

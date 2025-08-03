@@ -14,7 +14,6 @@ const App = () => {
     <div className="bg-[#F7F7F7]">
       <Toaster />
     <Routes>
-
       <Route path='/' element={authUser ? <Home /> : <Navigate to="/login" />}/>
       <Route path='/login' element={!authUser ? <Login /> : <Navigate to="/" />}/>
       <Route path='/profile' element={authUser ? <Profile /> : <Navigate to="/login" />}/>

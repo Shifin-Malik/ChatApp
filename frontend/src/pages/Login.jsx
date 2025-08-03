@@ -46,30 +46,31 @@ const Login = () => {
   };
 
   const inputClasses =
-    "pl-10 w-full p-3 text-sm rounded-(--border-radius-xl)  border-2 border-(--border-color) bg-primary text-black placeholder-(--text-color-input)  focus:outline-none focus:ring-2 focus:ring-(--color-green)";
+    "pl-10 w-full p-3 text-sm  dark:bg-(--foreground) rounded-(--border-radius-xl)  border-2 border-(--border-color) bg-primary text-black dark:text-(--text-color) placeholder-(--text-color-input)  focus:outline-none focus:ring-2 focus:ring-(--color-green)";
   const iconClasses = "absolute left-3 top-1/2  -translate-y-1/2 text-(--icon-color) hover:text-[var(--icon-color-hover)]";
 
   return (
-    <div className="min-h-screen bg-primary px-6 py-12 flex items-center justify-center">
+    <div className="min-h-screen bg-primary dark:bg-(--background) px-6 py-12 flex items-center justify-center">
       <div className="max-w-6xl w-full flex flex-col md:flex-row items-center justify-around gap-8">
         {/* Left Branding */}
         <div className="text-center md:text-left">
           <img src={assets.logo_icon} alt="Logo" className="md:w-48 w-32 mx-auto md:mx-0" />
+         
           <h1 className="text-4xl sm:text-5xl font-bold text-secondary mt-4">Textrox</h1>
         </div>
-
+            
         {/* Right Form Section */}
-        <div className="w-full max-w-md bg-secondary border-2 border-(--border-color) text-black backdrop-blur-md rounded-2xl shadow-2xl p-6 sm:p-8">
-          <Tabs className=" " defaultValue="login" value={tab} onValueChange={setTab} >
-            <TabsList className="w-full justify-between bg-primary h-12 p-1 rounded-(--border-radius-xl) border-2 border-(--border-color)  shadow-lg">
+        <div className="w-full max-w-md bg-secondary dark:bg-(--foreground)  border-2 border-(--border-color) text-black backdrop-blur-md rounded-2xl shadow-2xl p-6 sm:p-8">
+          <Tabs className="" defaultValue="login" value={tab} onValueChange={setTab} >
+            <TabsList className="w-full justify-between bg-primary dark:bg-(--foreground) h-12 p-1  shadow-lg">
               <TabsTrigger
-                className="w-full  data-[state=active]:bg-(--button-bg) data-[state=active]:text-primary data-[state=active]:shadow font-semibold text-xs md:text-sm"
+                className="w-full  data-[state=active]:bg-green data-[state=active]:text-primary rounded-2xl  font-semibold text-xs md:text-sm"
                 value="login"
               >
                 Login
               </TabsTrigger>
               <TabsTrigger
-                className="w-full  data-[state=active]:bg-(--button-bg) data-[state=active]:text-primary data-[state=active]:shadow font-semibold text-xs md:text-sm"
+                className="w-full  data-[state=active]:bg-green data-[state=active]:text-primary rounded-2xl  font-semibold text-xs md:text-sm"
                 value="signup"
               >
                 Sign Up
@@ -111,7 +112,7 @@ const Login = () => {
 
                 <Button
                   type="submit"
-                  className="w-full py-3 mt-2 text-primary bg-(--button-bg)  rounded-(--border-radius-xl) hover:bg-(--button-hover-bg) transition"
+                  
                 >
                   Login Now
                 </Button>
@@ -178,12 +179,12 @@ const Login = () => {
                   </div>
                 )}
 
-                <button
+                <Button
                   type="submit"
-                  className="w-full py-3 mt-2 text-white bg-(--button-bg) hover:bg-(--button-hover-bg) rounded-(--border-radius-xl)  transition"
+                  className=""
                 >
                   {isDataSubmitted ? "Create Account" : "Continue"}
-                </button>
+                </Button>
               </form>
 
               {isDataSubmitted && (

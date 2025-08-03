@@ -68,7 +68,7 @@ const ChatContainer = () => {
 
   if (!selectedUser) {
     return (
-      <div className="flex flex-col items-center justify-center gap-2 bg-secondary  rounded-(--border-radius-xl) border-2 border-(--border-color)  max-md:hidden">
+      <div className="flex flex-col items-center justify-center gap-2 bg-secondary dark:bg-(--foreground) rounded-(--border-radius-xl) border-2 border-(--border-color)  max-md:hidden">
         <img src={assets.logo_icon} alt="Chat logo" className="max-w-32" />
         <p className="text-4xl font-semibold text-green">
           Chat anytime, anywhere
@@ -78,7 +78,7 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className=" h-full overflow-hidden relative bg-secondary rounded-(--border-radius-xl) border-2 border-(--border-color) ">
+    <div className=" h-full overflow-hidden relative dark:bg-(--foreground)  rounded-(--border-radius-xl) border-2 border-(--border-color) ">
       {/* Top Bar */}
       <div className="flex items-center gap-3 py-3 mx-4 border-b  border-(--border-color) ">
         <img
@@ -87,7 +87,7 @@ const ChatContainer = () => {
           alt="User profile"
           className="w-8 rounded-full"
         />
-        <p className="flex-1 text-lg text-black flex items-center gap-2">
+        <p className="flex-1 text-lg text-black dark:text-(--text-color) flex items-center gap-2">
           {selectedUser.fullName}
           {onlineUsers.includes(selectedUser._id) && (
             <span className="w-2 h-2 rounded-full bg-green inline-block" />
@@ -98,7 +98,7 @@ const ChatContainer = () => {
         <EllipsisVertical className="text-(--icon-color) hover:text-gray-600 w-5 h-5 cursor-pointer" />
       </div>
       {/* Messages */}
-      <div className="flex flex-col h-[calc(100%-120px)] bg-primary overflow-y-auto p-3 pb-6">
+      <div className="flex flex-col h-[calc(100%-120px)] bg-primary dark:bg-(--foreground) overflow-y-auto p-3 pb-6">
         {messages.map((msg, idx) => {
           const isOwn = msg.senderId === authUser._id;
           const key = `${msg._id || "temp"}-${msg.createdAt || idx}-${idx}`;
@@ -135,7 +135,7 @@ const ChatContainer = () => {
                     className={`p-2 text-sm rounded-md break-words w-fit max-w-xs border-2 ${
                       isOwn
                         ? "bg-green text-primary rounded-br-none border-[var(--border-color)]"
-                        : "bg-secondary text-black rounded-bl-none border-[var(--border-color)]"
+                        : "bg-secondary  text-black rounded-bl-none border-[var(--border-color)]"
                     }`}
                   >
                     <div className="flex items-end justify-between gap-1">
@@ -169,9 +169,9 @@ const ChatContainer = () => {
       {/* Input Field */}
       <form
         onSubmit={handleSendMessage}
-        className="absolute bottom-0 left-0 right-0 md:px-4 px-2 py-2 bg-white"
+        className="absolute bottom-0 left-0 right-0 md:px-4 px-2 py-2 bg-white dark:bg-(--background)"
       >
-        <div className="flex items-center gap-3 bg-primary px-4 py-3 rounded-(--border-radius-xl) border-2 border-(--border-color) w-full max-w-3xl mx-auto">
+        <div className="flex items-center gap-2 bg-primary dark:bg-(--foreground) px-4 py-3 rounded-(--border-radius-xl) border-2 border-(--border-color) w-full max-w-3xl mx-auto">
           {/* Mic Icon */}
           <button
             type="button"
@@ -214,13 +214,13 @@ const ChatContainer = () => {
             </button>
             <button
               type="submit"
-              className="cursor-pointer text-(--icon-color) hover:tcursor-pointer ext-[var(--icon-color-hover)]"
+              className="cursor-pointer text-(--icon-color) hover:text-[var(--icon-color-hover)]"
             >
               <SendHorizontal size={20} />
             </button>
             <button
               type="button"
-              className="cursor-pointer text-(--icon-color) hover:text-[var(--icon-color-hover)]"
+              className="hidden md:inline cursor-pointer text-(--icon-color) hover:text-[var(--icon-color-hover)]"
             >
               <MapPin size={20} />
             </button>

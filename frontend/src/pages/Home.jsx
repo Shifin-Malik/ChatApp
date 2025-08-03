@@ -8,7 +8,7 @@ const Home = () => {
   const { selectedUser } = useContext(ChatContext);
 
   return (
-    <div className="w-full h-screen sm:px-[1%] sm:py-[1%]">
+    <div className="w-full h-screen sm:px-[1%] sm:py-[1%] dark:bg-(--background)">
       <div
         className={`overflow-hidden h-full grid grid-cols-1 relative
           ${selectedUser 
